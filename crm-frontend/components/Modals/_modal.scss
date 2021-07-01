@@ -1,0 +1,380 @@
+.modal {
+  &__dialog {
+    max-width: 450px;
+  }
+
+  &__content {
+    position: relative;
+    padding: 25px 0;
+    border-radius: 0;
+
+    &--centered {
+      align-items: center;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      display: none;
+      margin: auto;
+      background: url("./components/global/img/loader.svg") no-repeat center;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      display: none;
+      background: #333;
+      opacity: .8;
+    }
+
+    &--loading {
+      &::before {
+        display: block;
+      }
+
+      &::after {
+        display: block;
+        animation: 1s loading infinite cubic-bezier(0.46, 0.03, 0.52, 0.96);
+      }
+    }
+  }
+
+  &__head-wrapper {
+    display: flex;
+    align-items: baseline;
+    padding: 0 30px;
+
+    .modal__title {
+      margin-right: 8px;
+      padding: 0;
+    }
+  }
+
+  &__id {
+    font-size: 12px;
+    color: var(--light-text);
+  }
+
+  &__title {
+    padding: 0 30px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+  }
+
+  &__descr {
+    max-width: 275px;
+    text-align: center;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__errors {
+    align-self: center;
+    margin-bottom: 8px;
+    font-size: 10px;
+    color: var(--warning);
+    list-style: none;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__name-group {
+    margin-bottom: 25px;
+    padding: 0 30px;
+  }
+
+  &__floating {
+    padding: 32px 0 0;
+  }
+
+  &__name {
+    height: unset !important;
+    padding: 0 !important;
+    border: none;
+    border-bottom: 1px solid var(--secondary);
+    border-radius: 0;
+    box-shadow: none !important;
+
+    &--error {
+      border-color: var(--warning);
+
+      & + .modal__label {
+        color: var(--warning);
+      }
+    }
+
+    &:focus {
+      border-color: var(--accent);
+    }
+  }
+
+  &__label {
+    top: unset !important;
+    bottom: 0;
+    height: 60% !important;
+    padding: 0 !important;
+    color: var(--light-text);
+
+    &--required::after {
+      content: "*";
+      color: var(--accent);
+    }
+  }
+
+  &__contact-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+    padding: 8px 30px;
+    background: var(--secondary30);
+  }
+
+  &-contact {
+    &__wrapper {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+
+      &:first-child {
+        padding-top: 17px;
+      }
+
+      & + .modal-contact__add-btn {
+        padding: 17px 0;
+      }
+
+      &:nth-of-type(10) + .modal-contact__add-btn {
+        display: none;
+      }
+    }
+
+    &__input {
+      flex: 1;
+      width: auto;
+      min-width: 130px;
+      padding: 0 12px;
+      border: none;
+      border-top: 1px solid var(--secondary);
+      border-bottom: 1px solid var(--secondary);
+
+      &--error {
+        border: 1px solid var(--warning);
+      }
+    }
+
+    &__outer {
+      width: 127px;
+      min-width: 110px;
+      margin-bottom: 0;
+      border: none;
+
+      * {
+        font-size: 12px !important;
+      }
+
+      &::after {
+        width: 12px !important;
+        height: 12px !important;
+        margin-top: -5.5px !important;
+        border: none !important;
+        background: url("./components/global/img/arrow_drop.svg");
+      }
+    }
+
+    &__inner {
+      border: 1px solid var(--secondary);
+      border-radius: 0;
+      background: var(--controls);
+    }
+
+    &__item {
+      padding-right: 10px !important;
+      opacity: 1;
+    }
+
+    &__delete-btn {
+      border: 1px solid var(--secondary);
+      background: var(--controls);
+      transition: border-color .3s;
+
+      svg path {
+        fill: var(--light-text);
+        transition: fill .3s;
+      }
+
+      @media (any-hover: hover) {
+        &:hover {
+          border-color: var(--warning);
+
+          svg path {
+            fill: var(--warning);
+          }
+        }
+      }
+    }
+
+    &__add-btn {
+      border: none;
+      background-color: transparent;
+      transition: color .3s;
+
+      svg {
+        vertical-align: bottom;
+
+        & path {
+          transition: opacity .3s;
+
+          &:last-child {
+            opacity: 0;
+          }
+        }
+      }
+
+      @media (any-hover: hover) {
+        &:hover {
+          color: var(--accent);
+
+          svg {
+            path:first-child {
+              opacity: 0;
+            }
+
+            path:last-child {
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      &:focus-visible {
+        color: var(--accent);
+        outline: none;
+
+        svg {
+          path:first-child {
+            opacity: 0;
+          }
+
+          path:last-child {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  &__confirm-btn {
+    align-self: center;
+    margin-bottom: 8px;
+    padding: 12px 35px;
+    border: none;
+    color: var(--background);
+    background: var(--accent);
+    @media (any-hover: hover) {
+      &:hover {
+        background: var(--accent-hover);
+      }
+    }
+
+    &:active {
+      background: var(--accent-active);
+    }
+  }
+
+  &__cancel-btn {
+    position: relative;
+    align-self: center;
+    padding: 0;
+    border: none;
+    font-size: 12px;
+    background: transparent;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--text);
+    }
+  }
+
+  &__close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 29px;
+    height: 29px;
+    padding: 7px;
+    border: none;
+    background: transparent;
+
+    span {
+      width: 20px;
+      height: 1px;
+      background: var(--secondary);
+      transform-origin: left;
+
+      &:first-child {
+        transform: rotate(45deg);
+      }
+
+      &:last-child {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}
+
+.modal-contact__outer.is-open::after {
+  transform: rotateX(180deg);
+}
+
+.is-selected {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .modal {
+    &__dialog {
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    &__title {
+      padding-left: 15px;
+    }
+
+    &__head-wrapper {
+      flex-wrap: wrap;
+      padding-right: 45px;
+      padding-left: 15px;
+    }
+
+    &__contact-group,
+    &__name-group {
+      padding: 0 15px;
+    }
+  }
+}

@@ -1,0 +1,354 @@
+.title {
+  margin-bottom: 26px;
+}
+
+.wrapper {
+  overflow: auto;
+  margin-bottom: 40px;
+}
+
+.clients {
+  width: 100%;
+  min-width: 728px;
+  border-collapse: collapse;
+
+  &__header {
+    color: var(--light-text);
+
+    th {
+      position: relative;
+      vertical-align: bottom;
+      padding: 8px 20px;
+      font-weight: 400;
+      font-size: 12px;
+      text-align: left;
+    }
+  }
+
+  &__row {
+    background: transparent;
+    transition: background-color 1s;
+
+    &--highlighted {
+      background: var(--controls);
+    }
+  }
+
+  &__sort {
+    cursor: pointer;
+    transition: color .3s;
+    @media (any-hover: hover) {
+      &:hover {
+        color: var(--accent-hover);
+      }
+    }
+  }
+
+  &__sort span {
+    vertical-align: middle;
+    pointer-events: none;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: url("./components/global/img/arrow.svg") center no-repeat;
+    }
+  }
+
+  &__body {
+    background: var(--background);
+
+    &--loading {
+      position: relative;
+      height: 300px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: var(--background);
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        margin: auto;
+        background: url("./components/global/img/loader.svg") center no-repeat;
+        animation: 1s loading infinite cubic-bezier(0.46, 0.03, 0.52, 0.96);
+      }
+    }
+
+    tr {
+      border-bottom: 1px solid var(--row-border);
+    }
+
+    td {
+      padding: 20px;
+    }
+  }
+
+  &__name {
+    min-width: 210px;
+    max-width: 250px;
+  }
+
+  &__id,
+  &__time {
+    color: var(--light-text);
+  }
+
+  &__id {
+    font-size: 12px;
+  }
+
+  &__contacts {
+    width: 155px;
+
+    svg {
+      position: relative;
+    }
+
+    &--collapsed {
+      svg:nth-child(n + 5) {
+        display: none;
+      }
+
+      .clients__expand-contacts {
+        display: inline-block;
+      }
+    }
+  }
+
+  &__expand-contacts {
+    display: none;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border-width: 1px;
+    border-color: var(--accent);
+    border-radius: 50%;
+    font-size: 8px;
+    line-height: 1;
+    background: transparent;
+  }
+
+  &__actions {
+    white-space: nowrap;
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    opacity: .7;
+    transition: opacity .3s;
+
+    &:not(:last-child) {
+      margin-right: 7px;
+    }
+  }
+
+  &__action {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: color .3s;
+
+    &:not(:last-child) {
+      margin-right: 25px;
+    }
+
+    @media (any-hover: hover) {
+      &--edit:hover {
+        color: var(--accent-hover);
+      }
+      &--del:hover {
+        color: var(--warning);
+      }
+      &--copy:hover {
+        color: var(--copy);
+      }
+    }
+
+    &::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      margin-right: 1px;
+      background-repeat: no-repeat;
+    }
+
+    &--edit {
+      &::before {
+        background-image: url("./components/global/img/edit.svg");
+      }
+    }
+
+    &--del {
+      &::before {
+        background-image: url("./components/global/img/cancel.svg");
+      }
+    }
+
+    &--copy {
+      &::before {
+        background-image: url("./components/global/img/clipboard.svg");
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      margin-right: 1px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0;
+    }
+
+    &--edit {
+      &::after {
+        background-image: url("./components/global/img/loader.svg");
+      }
+    }
+
+    &--del {
+      &::after {
+        background-image: url("./components/global/img/loader-red.svg");
+      }
+    }
+
+    &--copy {
+      &::after {
+        background-image: url("./components/global/img/loader-green.svg");
+      }
+    }
+
+    &--loading {
+      &::before {
+        opacity: 0;
+      }
+
+      &::after {
+        opacity: 1;
+        animation: 1s loading infinite cubic-bezier(0.46, 0.03, 0.52, 0.96);
+      }
+    }
+  }
+
+  @media (any-hover: hover) {
+    &__icon:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.fullname span::after {
+  vertical-align: text-bottom;
+  font-size: 10px;
+  color: var(--accent);
+}
+
+.js-asc-sorted.fullname span::after {
+  content: "А-Я";
+}
+
+.js-desc-sorted.fullname span::after {
+  content: "Я-А";
+}
+
+.js-asc-sorted,
+.js-desc-sorted {
+  color: var(--accent);
+}
+
+.js-asc-sorted span::before {
+  transform: rotateX(180deg);
+}
+
+.add-client-btn {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  align-self: center;
+  padding: 14px 26px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  cursor: pointer;
+  transition-duration: .3s;
+  transition-property: background-color, color;
+
+  svg path {
+    transition: fill .3s;
+  }
+
+  @media (any-hover: hover) {
+    &:hover {
+      color: var(--background);
+      background-color: var(--accent-hover);
+
+      svg path {
+        fill: var(--background);
+      }
+    }
+  }
+
+  &:active {
+    color: var(--background);
+    background-color: var(--accent-active);
+
+    svg path {
+      fill: var(--background);
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .clients {
+    &__id {
+      overflow: hidden;
+      max-width: 70px;
+      text-overflow: ellipsis;
+    }
+
+    &__actions {
+      white-space: unset;
+    }
+
+    &__header th,
+    &__body td {
+      padding: 10px;
+    }
+
+    &__contacts {
+      width: 135px;
+    }
+
+    &__edit {
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}

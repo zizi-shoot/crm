@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <title>Skillbus CRM</title>
+  <link as="font" href="./fonts/OpenSans-Regular.woff2" rel="preload" crossorigin>
+  <link as="font" href="./fonts/OpenSans-Semibold.woff2" rel="preload" crossorigin>
+  <link as="font" href="./fonts/OpenSans-Bold.woff2" rel="preload" crossorigin>
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet">
+  <link href="./main.css" rel="stylesheet">
+  <script crossorigin="anonymous" defer integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  <script defer src="https://unpkg.com/@popperjs/core@2"></script>
+  <script defer src="https://unpkg.com/tippy.js@6"></script>
+  <script defer src="./components/vendor/inputmask.min.js"></script>
+  <script defer src="./main.js" type="module"></script>
+</head>
+<body>
+  <header class="header">
+    <img alt="логотип skillbus" class="header__logo" src="components/global/img/logo.svg">
+    <div class="header__wrapper">
+      <form action="" class="header__form">
+        <label class="visually-hidden" for="search">Поиск клиента</label>
+        <input class="header__search" id="search" name="search" placeholder="Введите запрос" type="search">
+      </form>
+      <ul class="header__suggestions header__suggestions--hidden"></ul>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <h2 class="title">Клиенты</h2>
+      <div class="wrapper">
+        <table class="clients">
+          <thead class="clients__header">
+            <tr>
+              <th class="clients__sort js-asc-sorted" scope="col">ID<span></span></th>
+              <th class="clients__sort fullname" scope="col">Фамилия Имя Отчество<span data-sort-order="А-Я"></span>
+              </th>
+              <th class="clients__sort" scope="col">Дата и время создания<span></span></th>
+              <th class="clients__sort" scope="col">Последние изменения<span></span></th>
+              <th scope="col">Контакты</th>
+              <th scope="col">Действия</th>
+            </tr>
+          </thead>
+          <tbody class="clients__body clients__body--loading">
+          </tbody>
+        </table>
+      </div>
+      <button class="add-client-btn">
+        <svg fill="none" height="16" viewBox="0 0 23 16" width="23" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M14.5 8C16.71 8 18.5 6.21 18.5 4C18.5 1.79 16.71 0 14.5 0C12.29 0 10.5 1.79 10.5 4C10.5 6.21 12.29 8 14.5 8ZM5.5 6V3H3.5V6H0.5V8H3.5V11H5.5V8H8.5V6H5.5ZM14.5 10C11.83 10 6.5 11.34 6.5 14V16H22.5V14C22.5 11.34 17.17 10 14.5 10Z"
+            fill="#9873FF" />
+        </svg>
+        <span>Добавить клиента</span></button>
+    </div>
+  </main>
+  <!-- Modals -->
+  <div class="modal-wrapper">
+    <div aria-hidden="true" aria-labelledby="newClientModalLabel" class="modal fade" id="newClientModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal__dialog">
+        <div class="modal-content modal__content">
+          <h2 class="modal__title">Новый клиент</h2>
+          <form autocomplete="on" class="modal__form" method="post" name="new-client">
+            <fieldset class="modal__name-group">
+              <div class="form-floating modal__floating">
+                <input autocomplete="name" class="form-control modal__name" id="surname" name="surname" placeholder="Фамилия" type="text">
+                <label class="modal__label modal__label--required" for="surname">Фамилия</label>
+              </div>
+              <div class="form-floating modal__floating">
+                <input autocomplete="name" class="form-control modal__name" id="name" name="name" placeholder="Имя" type="text">
+                <label class="modal__label modal__label--required" for="name">Имя</label>
+              </div>
+              <div class="form-floating modal__floating">
+                <input autocomplete="name" class="form-control modal__name" id="lastName" name="lastName" placeholder="Отчество" type="text">
+                <label class="modal__label" for="lastName">Отчество</label>
+              </div>
+            </fieldset>
+            <fieldset class="modal__contact-group modal-contact">
+              <button class="modal-contact__add-btn">
+                <svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8.00001 4.66665C7.63334 4.66665 7.33334 4.96665 7.33334 5.33331V7.33331H5.33334C4.96668 7.33331 4.66668 7.63331 4.66668 7.99998C4.66668 8.36665 4.96668 8.66665 5.33334 8.66665H7.33334V10.6666C7.33334 11.0333 7.63334 11.3333 8.00001 11.3333C8.36668 11.3333 8.66668 11.0333 8.66668 10.6666V8.66665H10.6667C11.0333 8.66665 11.3333 8.36665 11.3333 7.99998C11.3333 7.63331 11.0333 7.33331 10.6667 7.33331H8.66668V5.33331C8.66668 4.96665 8.36668 4.66665 8.00001 4.66665ZM8.00001 1.33331C4.32001 1.33331 1.33334 4.31998 1.33334 7.99998C1.33334 11.68 4.32001 14.6666 8.00001 14.6666C11.68 14.6666 14.6667 11.68 14.6667 7.99998C14.6667 4.31998 11.68 1.33331 8.00001 1.33331ZM8.00001 13.3333C5.06001 13.3333 2.66668 10.94 2.66668 7.99998C2.66668 5.05998 5.06001 2.66665 8.00001 2.66665C10.94 2.66665 13.3333 5.05998 13.3333 7.99998C13.3333 10.94 10.94 13.3333 8.00001 13.3333Z"
+                    fill="#9873FF" />
+                  <path clip-rule="evenodd" d="M1.33325 8.00016C1.33325 4.32016 4.31992 1.3335 7.99992 1.3335C11.6799 1.3335 14.6666 4.32016 14.6666 8.00016C14.6666 11.6802 11.6799 14.6668 7.99992 14.6668C4.31992 14.6668 1.33325 11.6802 1.33325 8.00016ZM7.33323 5.33366C7.33323 4.96699 7.63323 4.66699 7.9999 4.66699C8.36657 4.66699 8.66656 4.96699 8.66656 5.33366V7.33366H10.6666C11.0332 7.33366 11.3332 7.63366 11.3332 8.00033C11.3332 8.36699 11.0332 8.66699 10.6666 8.66699H8.66656V10.667C8.66656 11.0337 8.36657 11.3337 7.9999 11.3337C7.63323 11.3337 7.33323 11.0337 7.33323 10.667V8.66699H5.33323C4.96656 8.66699 4.66656 8.36699 4.66656 8.00033C4.66656 7.63366 4.96656 7.33366 5.33323 7.33366H7.33323V5.33366Z" fill="#9873FF" fill-rule="evenodd" />
+                </svg>
+                Добавить контакт
+              </button>
+            </fieldset>
+            <ul class="modal__errors modal__errors--hidden"></ul>
+            <button class="modal__confirm-btn" type="submit">Сохранить</button>
+          </form>
+          <button class="modal__cancel-btn" data-bs-dismiss="modal">Отмена</button>
+          <button class="modal__close-btn" data-bs-dismiss="modal">
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div aria-hidden="true" aria-labelledby="editClientModalLabel" class="modal fade" id="editClientModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal__dialog">
+        <div class="modal-content modal__content">
+          <div class="modal__head-wrapper">
+            <h2 class="modal__title">Изменить данные</h2>
+            <span class="modal__id">ID: 123456789</span>
+          </div>
+          <form autocomplete="on" class="modal__form" method="post" name="edit-client">
+            <fieldset class="modal__name-group">
+              <div class="form-floating modal__floating">
+                <input autocomplete="name" class="form-control modal__name" id="editSurname" name="surname" placeholder="Фамилия" type="text">
+                <label class="modal__label modal__label--required" for="editSurname">Фамилия</label>
+              </div>
+              <div class="form-floating modal__floating">
+                <input autocomplete="name" class="form-control modal__name" id="editName" name="name" placeholder="Имя" type="text">
+                <label class="modal__label modal__label--required" for="editName">Имя</label>
+              </div>
+              <div class="form-floating modal__floating">
+                <input autocomplete="name" class="form-control modal__name" id="editLastName" name="lastName" placeholder="Отчество" type="text">
+                <label class="modal__label" for="editLastName">Отчество</label>
+              </div>
+            </fieldset>
+            <fieldset class="modal__contact-group modal-contact">
+              <button class="modal-contact__add-btn">
+                <svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M8.00001 4.66665C7.63334 4.66665 7.33334 4.96665 7.33334 5.33331V7.33331H5.33334C4.96668 7.33331 4.66668 7.63331 4.66668 7.99998C4.66668 8.36665 4.96668 8.66665 5.33334 8.66665H7.33334V10.6666C7.33334 11.0333 7.63334 11.3333 8.00001 11.3333C8.36668 11.3333 8.66668 11.0333 8.66668 10.6666V8.66665H10.6667C11.0333 8.66665 11.3333 8.36665 11.3333 7.99998C11.3333 7.63331 11.0333 7.33331 10.6667 7.33331H8.66668V5.33331C8.66668 4.96665 8.36668 4.66665 8.00001 4.66665ZM8.00001 1.33331C4.32001 1.33331 1.33334 4.31998 1.33334 7.99998C1.33334 11.68 4.32001 14.6666 8.00001 14.6666C11.68 14.6666 14.6667 11.68 14.6667 7.99998C14.6667 4.31998 11.68 1.33331 8.00001 1.33331ZM8.00001 13.3333C5.06001 13.3333 2.66668 10.94 2.66668 7.99998C2.66668 5.05998 5.06001 2.66665 8.00001 2.66665C10.94 2.66665 13.3333 5.05998 13.3333 7.99998C13.3333 10.94 10.94 13.3333 8.00001 13.3333Z"
+                    fill="#9873FF" />
+                  <path clip-rule="evenodd" d="M1.33325 8.00016C1.33325 4.32016 4.31992 1.3335 7.99992 1.3335C11.6799 1.3335 14.6666 4.32016 14.6666 8.00016C14.6666 11.6802 11.6799 14.6668 7.99992 14.6668C4.31992 14.6668 1.33325 11.6802 1.33325 8.00016ZM7.33323 5.33366C7.33323 4.96699 7.63323 4.66699 7.9999 4.66699C8.36657 4.66699 8.66656 4.96699 8.66656 5.33366V7.33366H10.6666C11.0332 7.33366 11.3332 7.63366 11.3332 8.00033C11.3332 8.36699 11.0332 8.66699 10.6666 8.66699H8.66656V10.667C8.66656 11.0337 8.36657 11.3337 7.9999 11.3337C7.63323 11.3337 7.33323 11.0337 7.33323 10.667V8.66699H5.33323C4.96656 8.66699 4.66656 8.36699 4.66656 8.00033C4.66656 7.63366 4.96656 7.33366 5.33323 7.33366H7.33323V5.33366Z" fill="#9873FF" fill-rule="evenodd" />
+                </svg>
+                Добавить контакт
+              </button>
+            </fieldset>
+            <ul class="modal__errors modal__errors--hidden"></ul>
+            <button class="modal__confirm-btn" type="submit">Сохранить</button>
+          </form>
+          <button class="modal__cancel-btn">Удалить клиента</button>
+          <button class="modal__close-btn" data-bs-dismiss="modal">
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="deleteConfirmModalLabel" class="modal fade" id="deleteConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal__dialog">
+      <div class="modal-content modal__content modal__content--centered">
+        <h2 class="modal__title">Удалить клиента</h2>
+        <p class="modal__descr">Вы действительно хотите удалить данного клиента?</p>
+        <ul class="modal__errors modal__errors--hidden"></ul>
+        <button class="modal__confirm-btn" id="deleteConfirmBtn">Удалить</button>
+        <button class="modal__close-btn" data-bs-dismiss="modal">
+          <button class="modal__cancel-btn" data-bs-dismiss="modal">Отмена</button>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
